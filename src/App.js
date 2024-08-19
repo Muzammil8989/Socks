@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import axios from 'axios';
 import "./../src/globals.css";
 import Swatches from "./components/colorswatches";
 import * as THREE from "three";
@@ -167,14 +168,40 @@ export default function Home() {
       setTexture(updatedTexture);
     }
   };
-  const handleSave = () => {
+  const handleSave = async () => {
     if (texture) {
-      const link = document.createElement("a");
-      link.href = texture.image.toDataURL("image/png");
-      link.download = "customized_sock_texture.png";
-      link.click();
+      const imageData = texture.image.toDataURL("image/png");
+  
+      // Convert base64 to Blob
+      const response = await fetch(imageData);
+      const blob = await response.blob();
+  
+      const formData = new FormData();
+      formData.append('file', blob, 'customized_sock_texture.png');
+  
+      // Upload to WordPress
+      try {
+        const uploadResponse = await fetch('https://your-wordpress-site.com/wp-json/wp/v2/media', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Basic ' + btoa('socksadmin:jN)X#KP$MHvFAhP)&$8$&zcK'), // Replace with your username and application password
+            // 'Authorization': 'Bearer ' + token // For OAuth
+          },
+          body: formData,
+        });
+  
+        if (!uploadResponse.ok) {
+          throw new Error('Upload failed');
+        }
+  
+        const data = await uploadResponse.json();
+        console.log('Image uploaded:', data);
+      } catch (error) {
+        console.error('Error uploading image:', error);
+      }
     }
   };
+  
 
   const handleLogoPlacement = (event) => {
     const newLogoPlacement = event.target.value;
@@ -732,7 +759,7 @@ export default function Home() {
           </div>
           <div className="mt-6 flex gap-x-2 absolute top-0 right-2 lg:top-20 lg:right-2">
             <button
-              // onClick={handleSave}
+              onClick={handleSave}
               className="px-8 py-3 md:px-4 md:py-1 text-sm lg:text-base bg-[#E3262C] text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-150 ease-in-out"
             >
               Buy Now

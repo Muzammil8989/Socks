@@ -184,7 +184,7 @@ export default function Home() {
         const uploadResponse = await fetch('https://your-wordpress-site.com/wp-json/wp/v2/media', {
           method: 'POST',
           headers: {
-            'Authorization': 'Basic ' + btoa('socksadmin:jN)X#KP$MHvFAhP)&$8$&zcK'), // Replace with your username and application password
+            'Authorization': 'Basic ' + btoa(''), // Replace with your username and application password
             // 'Authorization': 'Bearer ' + token // For OAuth
           },
           body: formData,

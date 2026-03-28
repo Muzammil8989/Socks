@@ -14,7 +14,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.20.1",
     "axios": "^1.7.4",
-    "fabric": "^6.0.2",
+    "fabric": "^7.2.0",
     "fs": "^0.0.1-security",
     "react": "^17.0.2",
     "react-color": "^2.19.3",
